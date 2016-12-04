@@ -5,7 +5,10 @@ for line in open("servicesTocheck.txt"):
     params = line.split()
     r=requests.get("http://www.ksrtc.in/oprs-web/forward/booking/avail/services.do?txtJourneyDate="+params[0]+"&startPlaceId="+params[1]+"&endPlaceId="+params[2]+"&ajaxAction=fw&singleLady=&qryType=0")
     soup = BeautifulSoup(r.content,'html.parser')
-    dontWantServices=params[3:]
+    try:
+        dontWantServices=params[3:]
+    except:
+       print "all services included" 
     count=0;
     for one in soup.findAll("div", { "class" : "row" }):
         serviceName=one.find("div",{"class" : "col1"}).text.split()[0]
